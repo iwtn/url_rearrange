@@ -32,6 +32,14 @@ const onInit = _ => {
             const part = makePart(pair[0] + ": " + pair[1]);
             urlParts.appendChild(part);
           }
+        } else if (name == 'pathname') {
+          const paths = v.split('/');
+          paths.forEach((value, idx) => {
+            if (idx != 0) {
+              const part = makePart(idx + ": " + value);
+              urlParts.appendChild(part);
+            }
+          });
         } else {
           const part = makePart(name + ": " + v);
           urlParts.appendChild(part);
