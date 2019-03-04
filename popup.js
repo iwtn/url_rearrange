@@ -27,8 +27,15 @@ const onInit = _ => {
     urlPartNames.forEach((name) => {
       const v = url[name];
       if (v) {
-        const part = makePart(name + ": " + v);
-        urlParts.appendChild(part);
+        if (name == 'searchParams') {
+          for(var pair of v.entries()) {
+            const part = makePart(pair[0] + ": " + pair[1]);
+            urlParts.appendChild(part);
+          }
+        } else {
+          const part = makePart(name + ": " + v);
+          urlParts.appendChild(part);
+        }
       }
     });
 
