@@ -1,14 +1,14 @@
 const urlPartNames = [
   // 'href',
-  'hash',
   // 'host',
   'hostname',
-  // 'password',
-  'pathname',
   'port',
+  'pathname',
+  'hash',
+  'searchParams',
+  // 'password',
   // 'protocol',
   // 'search',
-  'searchParams',
   // 'username'
 ];
 
