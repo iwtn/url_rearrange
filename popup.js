@@ -1,5 +1,19 @@
+const urlPartNames = [
+  // 'href',
+  'hash',
+  // 'host',
+  'hostname',
+  // 'password',
+  'pathname',
+  'port',
+  // 'protocol',
+  // 'search',
+  'searchParams',
+  // 'username'
+];
+
 const makePart = (str) => {
-  const part = document.createElement('li');
+  const part = document.createElement('div');
   const txt = document.createTextNode(str)
   part.appendChild(txt);
   return part;
@@ -10,21 +24,7 @@ const onInit = _ => {
 
     const url = new URL(urlStr);
     const urlParts = document.querySelector("#url-parts");
-
-    const partNames = [
-      'href',
-      'hash',
-      'host',
-      'hostname',
-      'password',
-      'pathname',
-      'port',
-      'protocol',
-      'search',
-      'searchParams',
-      'username'
-    ];
-    partNames.forEach((name) => {
+    urlPartNames.forEach((name) => {
       const v = url[name];
       if (v) {
         const part = makePart(name + ": " + v);
