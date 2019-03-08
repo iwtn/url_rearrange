@@ -18,6 +18,25 @@ const makePart = (str) => {
   part.appendChild(txt);
   return part;
 }
+
+const setPaths = (paths) => {
+  const urlPaths = document.querySelector("#url-paths");
+  paths.forEach((value, idx) => {
+    if (idx != 0) {
+      const part = makePart(idx + ": " + value);
+      urlPaths.appendChild(part);
+    }
+  });
+}
+
+const setSearchParams = (params) => {
+  const urlSearchParams = document.querySelector("#url-search-params");
+  for(var pair of params.entries()) {
+    const part = makePart(pair[0] + ": " + pair[1]);
+    urlSearchParams.appendChild(part);
+  }
+}
+
 const onInit = _ => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
     const urlStr = tabs[0].url;
@@ -28,18 +47,9 @@ const onInit = _ => {
       const v = url[name];
       if (v) {
         if (name == 'searchParams') {
-          for(var pair of v.entries()) {
-            const part = makePart(pair[0] + ": " + pair[1]);
-            urlParts.appendChild(part);
-          }
+          setSearchParams(v);
         } else if (name == 'pathname') {
-          const paths = v.split('/');
-          paths.forEach((value, idx) => {
-            if (idx != 0) {
-              const part = makePart(idx + ": " + value);
-              urlParts.appendChild(part);
-            }
-          });
+          setPaths(v.split('/'));
         } else {
           const part = makePart(name + ": " + v);
           urlParts.appendChild(part);
