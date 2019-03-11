@@ -12,13 +12,17 @@ const urlPartNames = [
   // 'username'
 ];
 
-const makePart = (str) => {
+const makePart = (key, value) => {
   const part = document.createElement('div');
+
   const input = document.createElement('input');
   input.setAttribute('type', 'checkbox');
-  const txt = document.createTextNode(str)
+  input.setAttribute('class', 'part');
   part.appendChild(input);
+
+  const txt = document.createTextNode(key + ": " + value)
   part.appendChild(txt);
+
   return part;
 }
 
@@ -26,7 +30,7 @@ const setPaths = (paths) => {
   const urlPaths = document.querySelector("#url-paths");
   paths.forEach((value, idx) => {
     if (idx != 0 && value != '') {
-      const part = makePart(idx + ": " + value);
+      const part = makePart(idx, value);
       urlPaths.appendChild(part);
     }
   });
@@ -35,7 +39,7 @@ const setPaths = (paths) => {
 const setSearchParams = (params) => {
   const urlSearchParams = document.querySelector("#url-search-params");
   for(var pair of params.entries()) {
-    const part = makePart(pair[0] + ": " + pair[1]);
+    const part = makePart(pair[0], pair[1]);
     urlSearchParams.appendChild(part);
   }
 }
@@ -54,14 +58,14 @@ const onInit = _ => {
         } else if (name == 'pathname') {
           setPaths(v.split('/'));
         } else {
-          const part = makePart(name + ": " + v);
+          const part = makePart(name, v);
           urlParts.appendChild(part);
         }
       }
     });
 
 
-    let copyTarget = document.querySelector("#copy-target");
+    const copyTarget = document.querySelector("#copy-target");
     copyTarget.textContent = urlStr;
     copyTarget.select();
     document.execCommand('copy');
