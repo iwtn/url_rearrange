@@ -14,7 +14,10 @@ const urlPartNames = [
 
 const makePart = (str) => {
   const part = document.createElement('div');
+  const input = document.createElement('input');
+  input.setAttribute('type', 'checkbox');
   const txt = document.createTextNode(str)
+  part.appendChild(input);
   part.appendChild(txt);
   return part;
 }
@@ -22,7 +25,7 @@ const makePart = (str) => {
 const setPaths = (paths) => {
   const urlPaths = document.querySelector("#url-paths");
   paths.forEach((value, idx) => {
-    if (idx != 0) {
+    if (idx != 0 && value != '') {
       const part = makePart(idx + ": " + value);
       urlPaths.appendChild(part);
     }
