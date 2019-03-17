@@ -18,6 +18,8 @@ const makePart = (key, value) => {
   const input = document.createElement('input');
   input.setAttribute('type', 'checkbox');
   input.setAttribute('class', 'part');
+  input.setAttribute('name', key);
+  input.setAttribute('value', value);
   part.appendChild(input);
 
   const txt = document.createTextNode(key + ": " + value)
