@@ -12,6 +12,18 @@ const urlPartNames = [
   // 'username'
 ];
 
+const changeValue = () => {
+  const copyTarget = document.querySelector("#copy-target");
+  const parts = document.querySelectorAll('input.part');
+  let checkedParts = [];
+  parts.forEach((elm, idx) => {
+    if (elm.checked) {
+      checkedParts.push(elm);
+    }
+  });
+  console.log(checkedParts);
+}
+
 const makePart = (key, value) => {
   const part = document.createElement('div');
 
@@ -20,6 +32,8 @@ const makePart = (key, value) => {
   input.setAttribute('class', 'part');
   input.setAttribute('name', key);
   input.setAttribute('value', value);
+
+  input.addEventListener('click', changeValue);
   part.appendChild(input);
 
   const txt = document.createTextNode(key + ": " + value)
