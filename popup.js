@@ -60,31 +60,35 @@ const setSearchParams = (params) => {
   }
 }
 
+const resolution = (urlStr) => {
+  const url = new URL(urlStr);
+  const urlParts = document.querySelector("#url-parts");
+  urlPartNames.forEach((name) => {
+    const v = url[name];
+    if (v) {
+      if (name == 'searchParams') {
+        setSearchParams(v);
+      } else if (name == 'pathname') {
+        setPaths(v.split('/'));
+      } else {
+        const part = makePart(name, v);
+        urlParts.appendChild(part);
+      }
+    }
+  });
+}
+
+const copy = () => {
+  const copyTarget = document.querySelector("#copy-target");
+  copyTarget.textContent = urlStr;
+  copyTarget.select();
+  document.execCommand('copy');
+}
+
 const onInit = _ => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
-    const urlStr = tabs[0].url;
-
-    const url = new URL(urlStr);
-    const urlParts = document.querySelector("#url-parts");
-    urlPartNames.forEach((name) => {
-      const v = url[name];
-      if (v) {
-        if (name == 'searchParams') {
-          setSearchParams(v);
-        } else if (name == 'pathname') {
-          setPaths(v.split('/'));
-        } else {
-          const part = makePart(name, v);
-          urlParts.appendChild(part);
-        }
-      }
-    });
-
-
-    const copyTarget = document.querySelector("#copy-target");
-    copyTarget.textContent = urlStr;
-    copyTarget.select();
-    document.execCommand('copy');
+    resolution(tabs[0].url);
+    copy();
   });
 }
 
