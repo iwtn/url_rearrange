@@ -14,9 +14,17 @@ const urlPartKinds = [
 
 const combinePars = (parts) => {
   let url = '';
+  let isFirstParam = true;
+
   parts.forEach((elm, idx) => {
-    url += (elm.dataset.delimiter + elm.value);
+    let delimiter = elm.dataset.delimiter;
+    if (elm.dataset.name == 'searchParams' && isFirstParam) {
+      delimiter = '?';
+      isFirstParam = false;
+    }
+    url += (delimiter + elm.value);
   });
+
   return url;
 }
 
@@ -32,7 +40,7 @@ const changeValue = () => {
   copy(url);
 }
 
-const makePart = (key, value, delimiter) => {
+const makePart = (key, value, kind) => {
   const part = document.createElement('div');
 
   const input = document.createElement('input');
@@ -40,7 +48,8 @@ const makePart = (key, value, delimiter) => {
   input.setAttribute('class', 'part');
   input.setAttribute('name', key);
   input.setAttribute('value', value);
-  input.dataset.delimiter = delimiter;
+  input.dataset.name = kind.name;
+  input.dataset.delimiter = kind.delimiter;
 
   input.addEventListener('click', changeValue);
   part.appendChild(input);
@@ -51,20 +60,20 @@ const makePart = (key, value, delimiter) => {
   return part;
 }
 
-const setPaths = (paths, delimiter) => {
+const setPaths = (paths, kind) => {
   const urlPaths = document.querySelector("#url-paths");
   paths.forEach((value, idx) => {
     if (idx != 0 && value != '') {
-      const part = makePart(idx, value, delimiter);
+      const part = makePart(idx, value, kind);
       urlPaths.appendChild(part);
     }
   });
 }
 
-const setSearchParams = (params, delimiter) => {
+const setSearchParams = (params, kind) => {
   const urlSearchParams = document.querySelector("#url-search-params");
   for(var pair of params.entries()) {
-    const part = makePart(pair[0], pair[1], delimiter);
+    const part = makePart(pair[0], pair[1], kind);
     urlSearchParams.appendChild(part);
   }
 }
@@ -77,11 +86,11 @@ const resolution = (urlStr) => {
     const v = url[name];
     if (v) {
       if (name == 'searchParams') {
-        setSearchParams(v, kind.delimiter);
+        setSearchParams(v, kind);
       } else if (name == 'pathname') {
-        setPaths(v.split('/'), kind.delimiter);
+        setPaths(v.split('/'), kind);
       } else {
-        const part = makePart(name, v, kind.delimiter);
+        const part = makePart(name, v, kind);
         urlParts.appendChild(part);
       }
     }
