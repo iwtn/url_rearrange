@@ -12,6 +12,14 @@ const urlPartNames = [
   // 'username'
 ];
 
+const combinePars = (parts) => {
+  let url = '';
+  parts.forEach((elm, idx) => {
+    url += elm.value;
+  });
+  return url;
+}
+
 const changeValue = () => {
   const copyTarget = document.querySelector("#copy-target");
   const parts = document.querySelectorAll('input.part');
@@ -21,7 +29,8 @@ const changeValue = () => {
       checkedParts.push(elm);
     }
   });
-  console.log(checkedParts);
+  const url = combinePars(checkedParts);
+  copy(url);
 }
 
 const makePart = (key, value) => {
