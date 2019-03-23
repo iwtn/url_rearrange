@@ -78,7 +78,7 @@ const resolution = (urlStr) => {
   });
 }
 
-const copy = () => {
+const copy = (urlStr) => {
   const copyTarget = document.querySelector("#copy-target");
   copyTarget.textContent = urlStr;
   copyTarget.select();
@@ -87,8 +87,9 @@ const copy = () => {
 
 const onInit = _ => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
-    resolution(tabs[0].url);
-    copy();
+    const url = tabs[0].url;
+    resolution(url);
+    copy(url);
   });
 }
 
