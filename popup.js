@@ -1,11 +1,11 @@
-const urlPartNames = [
+const urlPartKinds = [
   // 'href',
   // 'host',
-  'hostname',
-  'port',
-  'pathname',
-  'hash',
-  'searchParams',
+  { name: 'hostname',     delimiter: ''  },
+  { name: 'port',         delimiter: ':' },
+  { name: 'pathname',     delimiter: '/' },
+  { name: 'hash',         delimiter: '#' },
+  { name: 'searchParams', delimiter: '&' },
   // 'password',
   // 'protocol',
   // 'search',
@@ -15,13 +15,12 @@ const urlPartNames = [
 const combinePars = (parts) => {
   let url = '';
   parts.forEach((elm, idx) => {
-    url += elm.value;
+    url += (elm.dataset.delimiter + elm.value);
   });
   return url;
 }
 
 const changeValue = () => {
-  const copyTarget = document.querySelector("#copy-target");
   const parts = document.querySelectorAll('input.part');
   let checkedParts = [];
   parts.forEach((elm, idx) => {
@@ -33,7 +32,7 @@ const changeValue = () => {
   copy(url);
 }
 
-const makePart = (key, value) => {
+const makePart = (key, value, delimiter) => {
   const part = document.createElement('div');
 
   const input = document.createElement('input');
@@ -41,6 +40,7 @@ const makePart = (key, value) => {
   input.setAttribute('class', 'part');
   input.setAttribute('name', key);
   input.setAttribute('value', value);
+  input.dataset.delimiter = delimiter;
 
   input.addEventListener('click', changeValue);
   part.appendChild(input);
@@ -51,20 +51,20 @@ const makePart = (key, value) => {
   return part;
 }
 
-const setPaths = (paths) => {
+const setPaths = (paths, delimiter) => {
   const urlPaths = document.querySelector("#url-paths");
   paths.forEach((value, idx) => {
     if (idx != 0 && value != '') {
-      const part = makePart(idx, value);
+      const part = makePart(idx, value, delimiter);
       urlPaths.appendChild(part);
     }
   });
 }
 
-const setSearchParams = (params) => {
+const setSearchParams = (params, delimiter) => {
   const urlSearchParams = document.querySelector("#url-search-params");
   for(var pair of params.entries()) {
-    const part = makePart(pair[0], pair[1]);
+    const part = makePart(pair[0], pair[1], delimiter);
     urlSearchParams.appendChild(part);
   }
 }
@@ -72,15 +72,16 @@ const setSearchParams = (params) => {
 const resolution = (urlStr) => {
   const url = new URL(urlStr);
   const urlParts = document.querySelector("#url-parts");
-  urlPartNames.forEach((name) => {
+  urlPartKinds.forEach((kind) => {
+    const name = kind.name;
     const v = url[name];
     if (v) {
       if (name == 'searchParams') {
-        setSearchParams(v);
+        setSearchParams(v, kind.delimiter);
       } else if (name == 'pathname') {
-        setPaths(v.split('/'));
+        setPaths(v.split('/'), kind.delimiter);
       } else {
-        const part = makePart(name, v);
+        const part = makePart(name, v, kind.delimiter);
         urlParts.appendChild(part);
       }
     }
@@ -101,6 +102,5 @@ const onInit = _ => {
     copy(url);
   });
 }
-
 
 document.addEventListener("DOMContentLoaded", onInit);
