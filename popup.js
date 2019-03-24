@@ -1,11 +1,11 @@
 const urlPartKinds = [
   // 'href',
   // 'host',
-  { name: 'hostname',     delimiter: ''  },
-  { name: 'port',         delimiter: ':' },
-  { name: 'pathname',     delimiter: '/' },
-  { name: 'hash',         delimiter: '#' },
-  { name: 'searchParams', delimiter: '&' },
+  { name: 'hostname',     delimiter: '',  default: true },
+  { name: 'port',         delimiter: ':', default: false },
+  { name: 'pathname',     delimiter: '/', default: false },
+  { name: 'hash',         delimiter: '#', default: false },
+  { name: 'searchParams', delimiter: '&', default: false },
   // 'password',
   // 'protocol',
   // 'search',
@@ -50,6 +50,9 @@ const makePart = (key, value, kind) => {
   input.setAttribute('value', value);
   input.dataset.name = kind.name;
   input.dataset.delimiter = kind.delimiter;
+  if (kind.default) {
+    input.setAttribute('checked', 'checked');
+  }
 
   input.addEventListener('click', changeValue);
   part.appendChild(input);
