@@ -40,9 +40,7 @@ const changeValue = () => {
   copy(url);
 }
 
-const makePart = (key, value, kind) => {
-  const part = document.createElement('div');
-
+const makeInputTag = (key, value, kind) => {
   const input = document.createElement('input');
   input.setAttribute('type', 'checkbox');
   input.setAttribute('class', 'part');
@@ -55,7 +53,14 @@ const makePart = (key, value, kind) => {
   }
 
   input.addEventListener('click', changeValue);
-  part.appendChild(input);
+
+  return input;
+}
+
+const makePart = (key, value, kind) => {
+  const part = document.createElement('div');
+
+  part.appendChild(makeInputTag(key, value, kind));
 
   const txt = document.createTextNode(key + ": " + value)
   part.appendChild(txt);
