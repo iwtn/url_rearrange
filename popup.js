@@ -42,6 +42,7 @@ const changeValue = () => {
 
 const makeInputTag = (key, value, kind) => {
   const input = document.createElement('input');
+  input.setAttribute('id', kind.name + key);
   input.setAttribute('type', 'checkbox');
   input.setAttribute('class', 'part');
   input.setAttribute('name', key);
@@ -57,13 +58,18 @@ const makeInputTag = (key, value, kind) => {
   return input;
 }
 
+const makeLabelTag = (key, value, kind) => {
+  const label = document.createElement('label');
+  label.setAttribute('for', kind.name + key);
+  label.innerHTML = key + ": " + value;
+
+  return label;
+}
+
 const makePart = (key, value, kind) => {
   const part = document.createElement('div');
-
   part.appendChild(makeInputTag(key, value, kind));
-
-  const txt = document.createTextNode(key + ": " + value)
-  part.appendChild(txt);
+  part.appendChild(makeLabelTag(key, value, kind));
 
   return part;
 }
