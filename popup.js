@@ -1,12 +1,12 @@
 const urlPartKinds = [
   // 'href',
   // 'host',
-  { name: 'protocol',     delimiter: '',  default: true },
-  { name: 'hostname',     delimiter: '',  default: true },
-  { name: 'port',         delimiter: ':', default: false },
-  { name: 'pathname',     delimiter: '/', default: false },
-  { name: 'hash',         delimiter: '#', default: false },
-  { name: 'searchParams', delimiter: '&', default: false },
+  { name: 'protocol',     delimiter: '',   default: true },
+  { name: 'hostname',     delimiter: '//', default: true },
+  { name: 'port',         delimiter: ':',  default: false },
+  { name: 'pathname',     delimiter: '/',  default: false },
+  { name: 'hash',         delimiter: '#',  default: false },
+  { name: 'searchParams', delimiter: '&',  default: false },
   // 'password',
   // 'search',
   // 'username'
@@ -18,11 +18,15 @@ const combinePars = (parts) => {
 
   parts.forEach((elm, idx) => {
     let delimiter = elm.dataset.delimiter;
-    if (elm.dataset.name == 'searchParams' && isFirstParam) {
-      delimiter = '?';
-      isFirstParam = false;
+    let value = elm.value;
+    if (elm.dataset.name == 'searchParams') {
+      value = elm.name + '=' + encodeURI(elm.value);
+      if (isFirstParam) {
+        delimiter = '?';
+        isFirstParam = false;
+      }
     }
-    url += (delimiter + elm.value);
+    url += (delimiter + value);
   });
 
   return url;
