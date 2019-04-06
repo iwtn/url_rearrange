@@ -79,12 +79,45 @@ const makeLabelTag = (key, value, kind) => {
   return label;
 }
 
+const makeKeyLabelTag = (key, value, kind) => {
+  const label = document.createElement('label');
+  label.setAttribute('for', kind.name + key);
+  label.innerHTML = key;
+
+  return label;
+}
+
+const makeValueLabelTag = (key, value, kind) => {
+  const label = document.createElement('label');
+  label.setAttribute('for', kind.name + key);
+  label.innerHTML = value;
+
+  return label;
+}
+
 const makePart = (key, value, kind) => {
   const part = document.createElement('div');
   part.appendChild(makeInputTag(key, value, kind));
   part.appendChild(makeLabelTag(key, value, kind));
 
   return part;
+}
+
+const makeTr = (key, value, kind) => {
+  const tr = document.createElement('tr');
+
+  const checkboxTd = document.createElement('td');
+  checkboxTd.appendChild(makeInputTag(key, value, kind));
+  const keyTd = document.createElement('td');
+  keyTd.appendChild(makeKeyLabelTag(key, value, kind));
+  const valueTd = document.createElement('td');
+  valueTd.appendChild(makeValueLabelTag(key, value, kind));
+
+  tr.appendChild(checkboxTd);
+  tr.appendChild(keyTd);
+  tr.appendChild(valueTd);
+
+  return tr;
 }
 
 const setPaths = (paths, kind) => {
@@ -113,10 +146,11 @@ const setSearchParams = (params, kind) => {
   h2.textContent = 'Search Params';
   menu.appendChild(h2);
 
+  const table = document.createElement('table');
   params.forEach((value, key) => {
-    const part = makePart(key, value, kind);
-    menu.appendChild(part);
+    table.appendChild(makeTr(key, value, kind));
   });
+  menu.appendChild(table);
 }
 
 const resolution = (urlStr) => {
