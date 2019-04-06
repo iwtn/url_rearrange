@@ -88,26 +88,40 @@ const makePart = (key, value, kind) => {
 }
 
 const setPaths = (paths, kind) => {
-  const urlPaths = document.querySelector("#url-paths");
+  if (paths.length == 0) {
+    return;
+  }
+  const menu = document.querySelector('#menu');
+  const h3 = document.createElement('h3');
+  h3.textContent = 'Paths';
+  menu.appendChild(h3);
+
   paths.forEach((value, idx) => {
     if (idx != 0 && value != '') {
       const part = makePart(idx, value, kind);
-      urlPaths.appendChild(part);
+      menu.appendChild(part);
     }
   });
 }
 
 const setSearchParams = (params, kind) => {
-  const urlSearchParams = document.querySelector("#url-search-params");
-  for(var pair of params.entries()) {
-    const part = makePart(pair[0], pair[1], kind);
-    urlSearchParams.appendChild(part);
+  if (Array.from(params).length == 0) {
+    return;
   }
+  const menu = document.querySelector('#menu');
+  const h3 = document.createElement('h3');
+  h3.textContent = 'Search Params';
+  menu.appendChild(h3);
+
+  params.forEach((value, key) => {
+    const part = makePart(key, value, kind);
+    menu.appendChild(part);
+  });
 }
 
 const resolution = (urlStr) => {
   const url = new URL(urlStr);
-  const urlParts = document.querySelector("#url-parts");
+  const urlParts = document.querySelector("#menu");
   urlPartKinds.forEach((kind) => {
     const name = kind.name;
     const v = url[name];
