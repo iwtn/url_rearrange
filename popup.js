@@ -5,7 +5,7 @@ const urlPartKinds = [
   { name: 'hostname',     delimiter: '//', default: true },
   { name: 'port',         delimiter: ':',  default: false },
   { name: 'pathname',     delimiter: '/',  default: false },
-  { name: 'hash',         delimiter: '#',  default: false },
+  { name: 'hash',         delimiter: '',   default: false },
   { name: 'searchParams', delimiter: '&',  default: false },
   // 'password',
   // 'search',
@@ -16,17 +16,22 @@ const combinePars = (parts) => {
   let url = '';
   let isFirstParam = true;
 
-  parts.forEach((elm, idx) => {
-    let delimiter = elm.dataset.delimiter;
-    let value = elm.value;
-    if (elm.dataset.name == 'searchParams') {
-      value = elm.name + '=' + encodeURI(elm.value);
-      if (isFirstParam) {
-        delimiter = '?';
-        isFirstParam = false;
-      }
+  urlPartKinds.forEach((prt, i) => {
+    const part = parts[prt.name];
+    if (part) {
+      part.forEach((elm, idx) => {
+        let delimiter = elm.dataset.delimiter;
+        let value = elm.value;
+        if (elm.dataset.name == 'searchParams') {
+          value = elm.name + '=' + encodeURI(elm.value);
+          if (isFirstParam) {
+            delimiter = '?';
+            isFirstParam = false;
+          }
+        }
+        url += (delimiter + value);
+      });
     }
-    url += (delimiter + value);
   });
 
   return url;
@@ -34,10 +39,14 @@ const combinePars = (parts) => {
 
 const changeValue = () => {
   const parts = document.querySelectorAll('input.part');
-  let checkedParts = [];
+  let checkedParts = {};
   parts.forEach((elm, idx) => {
     if (elm.checked) {
-      checkedParts.push(elm);
+      if (checkedParts[elm.dataset.name]) {
+        checkedParts[elm.dataset.name].push(elm);
+      } else {
+        checkedParts[elm.dataset.name] = [elm];
+      }
     }
   });
   const url = combinePars(checkedParts);
