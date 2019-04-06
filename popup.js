@@ -135,7 +135,6 @@ const onInit = _ => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
     const url = tabs[0].url;
     resolution(url);
-    copy(url);
   });
 }
 
