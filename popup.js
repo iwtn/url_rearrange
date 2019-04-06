@@ -103,6 +103,38 @@ const makePart = (key, value, kind) => {
   return part;
 }
 
+const makePathTr = (key, value, kind) => {
+  const tr = document.createElement('tr');
+
+  const checkboxTd = document.createElement('td');
+  checkboxTd.appendChild(makeInputTag(key, value, kind));
+  const valueTd = document.createElement('td');
+  valueTd.appendChild(makeValueLabelTag(key, value, kind));
+
+  tr.appendChild(checkboxTd);
+  tr.appendChild(valueTd);
+
+  return tr;
+}
+
+const setPaths = (paths, kind) => {
+  if (paths.length == 0) {
+    return;
+  }
+  const menu = document.querySelector('#multiParts');
+  const h2 = document.createElement('h2');
+  h2.textContent = 'Paths';
+  menu.appendChild(h2);
+
+  const table = document.createElement('table');
+  paths.forEach((value, idx) => {
+    if (idx != 0 && value != '') {
+      table.appendChild(makePathTr(idx, value, kind));
+    }
+  });
+  menu.appendChild(table);
+}
+
 const makeTr = (key, value, kind) => {
   const tr = document.createElement('tr');
 
@@ -118,23 +150,6 @@ const makeTr = (key, value, kind) => {
   tr.appendChild(valueTd);
 
   return tr;
-}
-
-const setPaths = (paths, kind) => {
-  if (paths.length == 0) {
-    return;
-  }
-  const menu = document.querySelector('#multiParts');
-  const h2 = document.createElement('h2');
-  h2.textContent = 'Paths';
-  menu.appendChild(h2);
-
-  paths.forEach((value, idx) => {
-    if (idx != 0 && value != '') {
-      const part = makePart(idx, value, kind);
-      menu.appendChild(part);
-    }
-  });
 }
 
 const setSearchParams = (params, kind) => {
