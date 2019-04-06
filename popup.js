@@ -91,10 +91,10 @@ const setPaths = (paths, kind) => {
   if (paths.length == 0) {
     return;
   }
-  const menu = document.querySelector('#menu');
-  const h3 = document.createElement('h3');
-  h3.textContent = 'Paths';
-  menu.appendChild(h3);
+  const menu = document.querySelector('#multiParts');
+  const h2 = document.createElement('h2');
+  h2.textContent = 'Paths';
+  menu.appendChild(h2);
 
   paths.forEach((value, idx) => {
     if (idx != 0 && value != '') {
@@ -108,10 +108,10 @@ const setSearchParams = (params, kind) => {
   if (Array.from(params).length == 0) {
     return;
   }
-  const menu = document.querySelector('#menu');
-  const h3 = document.createElement('h3');
-  h3.textContent = 'Search Params';
-  menu.appendChild(h3);
+  const menu = document.querySelector('#multiParts');
+  const h2 = document.createElement('h2');
+  h2.textContent = 'Search Params';
+  menu.appendChild(h2);
 
   params.forEach((value, key) => {
     const part = makePart(key, value, kind);
@@ -121,7 +121,7 @@ const setSearchParams = (params, kind) => {
 
 const resolution = (urlStr) => {
   const url = new URL(urlStr);
-  const urlParts = document.querySelector("#menu");
+  const urlParts = document.querySelector("#singlePart");
   urlPartKinds.forEach((kind) => {
     const name = kind.name;
     const v = url[name];
