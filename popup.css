@@ -1,17 +1,22 @@
 body {
   font-size: 16px;
   width: 500px;
-  padding: 0;
+  padding: 0 0 10px 0;
   margin: 0;
+  color: #222;
 }
 h1 {
-  margin: 10px 0;
+  background-color: #222;
+  color: #eee;
+  padding: 10px 15px;
+  margin: 0px 0px 10px 0px;
 }
 h2 {
   margin: 15px 0 5px 0;
+  padding: 10px 15px 5px 15px;
 }
 h1, h2 {
-  padding: 0px 15px;
+  font-weight: normal;
 }
 
 table {
@@ -27,11 +32,11 @@ table tr td {
   overflow: hidden;
 }
 table tr td:first-child{
-  padding: 3px 5px 3px 15px;
+  padding: 3px 5px 3px 0px;
   width: 1em;
 }
 table tr td:last-child{
-  padding: 3px 15px 3px 5px;
+  padding: 3px 0px 3px 5px;
 }
 
 textarea {
