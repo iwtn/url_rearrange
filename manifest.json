@@ -1,7 +1,7 @@
 {
-  "name": "Parameter Picker",
+  "name": "URL Rearrange",
   "version": "1.0",
-  "description": "URL Parameter Picker",
+  "description": "Split and combine URLs as you like.",
   "manifest_version": 2,
   "browser_action": {
     "default_popup": "settings.html"
