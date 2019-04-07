@@ -1,0 +1,44 @@
+body {
+  font-size: 16px;
+  width: 500px;
+  padding: 0;
+  margin: 0;
+}
+h1 {
+  margin: 10px 0;
+}
+h2 {
+  margin: 15px 0 5px 0;
+}
+h1, h2 {
+  padding: 0px 15px;
+}
+
+table {
+  border-top: solid 1px #ccc;
+  border-spacing: 0;
+  width: auto;
+  margin: 3px 15px;
+}
+table tr td {
+  border-bottom: solid 1px #ccc;
+  padding: 3px 5px 3px 5px;
+  word-break: break-all;
+  overflow: hidden;
+}
+table tr td:first-child{
+  padding: 3px 5px 3px 15px;
+  width: 1em;
+}
+table tr td:last-child{
+  padding: 3px 15px 3px 5px;
+}
+
+textarea {
+  margin: 3px 15px;
+  width: 460px;
+}
+
+div#singlePart {
+  margin: 3px 15px;
+}
