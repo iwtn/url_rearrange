@@ -117,10 +117,12 @@ const makePathTr = (key, value, kind) => {
   return tr;
 }
 
-const setPaths = (paths, kind) => {
-  if (paths.length == 0) {
+const setPaths = (pathStr, kind) => {
+  if (pathStr == '/') {
     return;
   }
+  const paths = pathStr.split('/');
+
   const menu = document.querySelector('#multiParts');
   const h2 = document.createElement('h2');
   h2.textContent = 'Paths';
@@ -178,7 +180,7 @@ const resolution = (urlStr) => {
       if (name == 'searchParams') {
         setSearchParams(v, kind);
       } else if (name == 'pathname') {
-        setPaths(v.split('/'), kind);
+        setPaths(v, kind);
       } else {
         const part = makePart(name, v, kind);
         urlParts.appendChild(part);
