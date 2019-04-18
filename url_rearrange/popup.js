@@ -38,9 +38,8 @@ const combinePars = (parts) => {
 }
 
 const changeValue = () => {
-  const parts = document.querySelectorAll('input.part');
   let checkedParts = {};
-  parts.forEach((elm, idx) => {
+  document.querySelectorAll('input.part').forEach((elm, idx) => {
     if (elm.checked) {
       if (checkedParts[elm.dataset.name]) {
         checkedParts[elm.dataset.name].push(elm);
@@ -121,7 +120,6 @@ const setPaths = (pathStr, kind) => {
   if (pathStr == '/') {
     return;
   }
-  const paths = pathStr.split('/');
 
   const menu = document.querySelector('#multiParts');
   const h2 = document.createElement('h2');
@@ -129,7 +127,7 @@ const setPaths = (pathStr, kind) => {
   menu.appendChild(h2);
 
   const table = document.createElement('table');
-  paths.forEach((value, idx) => {
+  pathStr.split('/').forEach((value, idx) => {
     if (idx != 0 && value != '') {
       table.appendChild(makePathTr(idx, value, kind));
     }
@@ -182,8 +180,7 @@ const resolution = (urlStr) => {
       } else if (name == 'pathname') {
         setPaths(v, kind);
       } else {
-        const part = makePart(name, v, kind);
-        urlParts.appendChild(part);
+        urlParts.appendChild(makePart(name, v, kind));
       }
     }
   });
@@ -198,8 +195,7 @@ const copy = (urlStr) => {
 
 const onInit = _ => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
-    const url = tabs[0].url;
-    resolution(url);
+    resolution(tabs[0].url);
   });
 }
 
