@@ -152,6 +152,9 @@ const makeTr = (key, value, kind) => {
   return tr;
 }
 
+const checkAll = (elm) => {
+}
+
 const setSearchParams = (params, kind) => {
   if (Array.from(params).length == 0) {
     return;
@@ -160,6 +163,22 @@ const setSearchParams = (params, kind) => {
   const h2 = document.createElement('h2');
   h2.textContent = 'Search Params';
   menu.appendChild(h2);
+
+  const span = document.createElement('span');
+
+  const allCheckBox = document.createElement('input')
+  allCheckBox.setAttribute('type', 'checkbox');
+  allCheckBox.setAttribute('id', 'CheckAllsearchParams');
+  span.appendChild(allCheckBox);
+
+  const label = document.createElement('label');
+  label.setAttribute('for', 'CheckAllsearchParams');
+  label.innerHTML = 'check all';
+  span.appendChild(label);
+
+  allCheckBox.addEventListener('click', checkAll);
+
+  h2.appendChild(span);
 
   const table = document.createElement('table');
   params.forEach((value, key) => {

@@ -19,6 +19,11 @@ h1, h2 {
   font-weight: normal;
 }
 
+h2 span {
+  font-size: 14px;
+  margin-left: 20px;
+}
+
 table {
   border-top: solid 1px #ccc;
   border-spacing: 0;
