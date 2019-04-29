@@ -132,6 +132,7 @@ const setPaths = (pathStr, kind) => {
       table.appendChild(makePathTr(idx, value, kind));
     }
   });
+  h2.appendChild(makeAllCheck('CheckAllPaths', table));
   menu.appendChild(table);
 }
 
@@ -154,11 +155,30 @@ const makeTr = (key, value, kind) => {
 
 const checkAllInTable = (table) => {
   return  (eve) => {
-    const boxes = table.querySelectorAll('#multiParts input');
+    const boxes = table.querySelectorAll('input');
     boxes.forEach((box) => {
       box.checked = eve.target.checked;
     });
+    changeValue();
   }
+}
+
+const makeAllCheck = (id, table) => {
+  const span = document.createElement('span');
+
+  const allCheckBox = document.createElement('input')
+  allCheckBox.setAttribute('type', 'checkbox');
+  allCheckBox.setAttribute('id', id);
+  span.appendChild(allCheckBox);
+
+  const label = document.createElement('label');
+  label.setAttribute('for', id);
+  label.innerHTML = 'check all';
+  span.appendChild(label);
+
+  allCheckBox.addEventListener('click', checkAllInTable(table));
+
+  return span;
 }
 
 
@@ -171,26 +191,11 @@ const setSearchParams = (params, kind) => {
   h2.textContent = 'Search Params';
   menu.appendChild(h2);
 
-  const span = document.createElement('span');
-
-  const allCheckBox = document.createElement('input')
-  allCheckBox.setAttribute('type', 'checkbox');
-  allCheckBox.setAttribute('id', 'CheckAllsearchParams');
-  span.appendChild(allCheckBox);
-
-  const label = document.createElement('label');
-  label.setAttribute('for', 'CheckAllsearchParams');
-  label.innerHTML = 'check all';
-  span.appendChild(label);
-
-  h2.appendChild(span);
-
   const table = document.createElement('table');
   params.forEach((value, key) => {
     table.appendChild(makeTr(key, value, kind));
   });
-
-  allCheckBox.addEventListener('click', checkAllInTable(table));
+  h2.appendChild(makeAllCheck('CheckAllsearchParams', table));
 
   menu.appendChild(table);
 }
