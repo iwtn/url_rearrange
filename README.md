@@ -9,3 +9,9 @@ https://chrome.google.com/webstore/detail/url-rearrange/flnmdckhlhmejifondmiclog
 
 ## Demo
 ![demo](https://github.com/iwtn/url_rearrange/blob/master/screenshot.png)
+
+## Zip
+
+```bash
+$ zip -r url_rearrange.zip url_rearrange --exclude url_rearrange/.*swp
+```
