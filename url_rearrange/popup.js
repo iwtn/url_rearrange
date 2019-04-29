@@ -152,7 +152,11 @@ const makeTr = (key, value, kind) => {
   return tr;
 }
 
-const checkAll = (elm) => {
+const checkAll = (eve) => {
+  const boxes = document.querySelectorAll('#multiParts input');
+  boxes.forEach((box) => {
+    box.checked = eve.target.checked;
+  });
 }
 
 const setSearchParams = (params, kind) => {
