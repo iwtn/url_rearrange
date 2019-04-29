@@ -173,7 +173,7 @@ const makeAllCheck = (id, table) => {
 
   const label = document.createElement('label');
   label.setAttribute('for', id);
-  label.innerHTML = 'check all';
+  label.innerHTML = 'select all';
   span.appendChild(label);
 
   allCheckBox.addEventListener('click', checkAllInTable(table));
