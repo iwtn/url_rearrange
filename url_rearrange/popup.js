@@ -38,9 +38,8 @@ const combinePars = (parts) => {
 }
 
 const changeValue = () => {
-  const parts = document.querySelectorAll('input.part');
   let checkedParts = {};
-  parts.forEach((elm, idx) => {
+  document.querySelectorAll('input.part').forEach((elm, idx) => {
     if (elm.checked) {
       if (checkedParts[elm.dataset.name]) {
         checkedParts[elm.dataset.name].push(elm);
@@ -121,7 +120,6 @@ const setPaths = (pathStr, kind) => {
   if (pathStr == '/') {
     return;
   }
-  const paths = pathStr.split('/');
 
   const menu = document.querySelector('#multiParts');
   const h2 = document.createElement('h2');
@@ -129,11 +127,12 @@ const setPaths = (pathStr, kind) => {
   menu.appendChild(h2);
 
   const table = document.createElement('table');
-  paths.forEach((value, idx) => {
+  pathStr.split('/').forEach((value, idx) => {
     if (idx != 0 && value != '') {
       table.appendChild(makePathTr(idx, value, kind));
     }
   });
+  h2.appendChild(makeAllCheck('CheckAllPaths', table));
   menu.appendChild(table);
 }
 
@@ -154,6 +153,35 @@ const makeTr = (key, value, kind) => {
   return tr;
 }
 
+const checkAllInTable = (table) => {
+  return  (eve) => {
+    const boxes = table.querySelectorAll('input');
+    boxes.forEach((box) => {
+      box.checked = eve.target.checked;
+    });
+    changeValue();
+  }
+}
+
+const makeAllCheck = (id, table) => {
+  const span = document.createElement('span');
+
+  const allCheckBox = document.createElement('input')
+  allCheckBox.setAttribute('type', 'checkbox');
+  allCheckBox.setAttribute('id', id);
+  span.appendChild(allCheckBox);
+
+  const label = document.createElement('label');
+  label.setAttribute('for', id);
+  label.innerHTML = 'select all';
+  span.appendChild(label);
+
+  allCheckBox.addEventListener('click', checkAllInTable(table));
+
+  return span;
+}
+
+
 const setSearchParams = (params, kind) => {
   if (Array.from(params).length == 0) {
     return;
@@ -167,6 +195,8 @@ const setSearchParams = (params, kind) => {
   params.forEach((value, key) => {
     table.appendChild(makeTr(key, value, kind));
   });
+  h2.appendChild(makeAllCheck('CheckAllsearchParams', table));
+
   menu.appendChild(table);
 }
 
@@ -182,8 +212,7 @@ const resolution = (urlStr) => {
       } else if (name == 'pathname') {
         setPaths(v, kind);
       } else {
-        const part = makePart(name, v, kind);
-        urlParts.appendChild(part);
+        urlParts.appendChild(makePart(name, v, kind));
       }
     }
   });
@@ -198,8 +227,7 @@ const copy = (urlStr) => {
 
 const onInit = _ => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
-    const url = tabs[0].url;
-    resolution(url);
+    resolution(tabs[0].url);
   });
 }
 
