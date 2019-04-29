@@ -152,12 +152,15 @@ const makeTr = (key, value, kind) => {
   return tr;
 }
 
-const checkAll = (eve) => {
-  const boxes = document.querySelectorAll('#multiParts input');
-  boxes.forEach((box) => {
-    box.checked = eve.target.checked;
-  });
+const checkAllInTable = (table) => {
+  return  (eve) => {
+    const boxes = table.querySelectorAll('#multiParts input');
+    boxes.forEach((box) => {
+      box.checked = eve.target.checked;
+    });
+  }
 }
+
 
 const setSearchParams = (params, kind) => {
   if (Array.from(params).length == 0) {
@@ -180,14 +183,15 @@ const setSearchParams = (params, kind) => {
   label.innerHTML = 'check all';
   span.appendChild(label);
 
-  allCheckBox.addEventListener('click', checkAll);
-
   h2.appendChild(span);
 
   const table = document.createElement('table');
   params.forEach((value, key) => {
     table.appendChild(makeTr(key, value, kind));
   });
+
+  allCheckBox.addEventListener('click', checkAllInTable(table));
+
   menu.appendChild(table);
 }
 
