@@ -48,8 +48,7 @@ const changeValue = () => {
       }
     }
   });
-  const url = combinePars(checkedParts);
-  copy(url);
+  copy(combinePars(checkedParts));
 }
 
 const makeInputTag = (key, value, kind) => {
@@ -225,10 +224,8 @@ const copy = (urlStr) => {
   document.execCommand('copy');
 }
 
-const onInit = _ => {
+document.addEventListener("DOMContentLoaded", () => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
     resolution(tabs[0].url);
   });
-}
-
-document.addEventListener("DOMContentLoaded", onInit);
+});
