@@ -9,14 +9,26 @@ const dummyList = [
   },
 ];
 
-const view = () => {
-  localStorage["urlSettings"] = dummyList;
+const createView = (setting) => {
+  console.log(setting);
+}
 
-  const list = localStorage["urlSettings"];
+const view = () => {
+  localStorage.setItem("urlSettings", JSON.stringify(dummyList));
+
+  const list = JSON.parse(localStorage.getItem("urlSettings"));
+  console.log(list);
   const tag = document.querySelector('#settings');
   if (list == undefined) {
     tag.innerHTML = 'empty';
   }
+
+  list.forEach((setting, idx) => {
+    const settingView = createView(setting);
+  });
+
+
+  tag.cre
 }
 document.addEventListener("DOMContentLoaded", () => {
   view();
