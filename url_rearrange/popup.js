@@ -224,15 +224,37 @@ const copy = (urlStr) => {
   document.execCommand('copy');
 }
 
-const saveSettings = () => {
-  console.log('click');
+const saveToLocalStorage = (urlString, setting) => {
+  const url = new URL(urlString);
+  const hostname = url.hostname;
+
+  console.log(setting);
+
+  localStorage.setItem(hostname, JSON.stringify(setting));
+}
+
+const saveSettings = (urlString) => {
+  return () => {
+    let checkedParts = {};
+    document.querySelectorAll('input.part').forEach((elm, idx) => {
+      if (elm.checked) {
+        if (checkedParts[elm.dataset.name]) {
+          checkedParts[elm.dataset.name].push(elm);
+        } else {
+          checkedParts[elm.dataset.name] = [elm];
+        }
+      }
+    });
+    saveToLocalStorage(urlString, checkedParts);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
-    resolution(tabs[0].url);
-  });
+    const urlString = tabs[0].url;
+    resolution(urlString);
 
-  const saveBtn = document.getElementById('save');
-  saveBtn.addEventListener('click', saveSettings, false);
+    const saveBtn = document.getElementById('save');
+    saveBtn.addEventListener('click', saveSettings(urlString), false);
+  });
 });
