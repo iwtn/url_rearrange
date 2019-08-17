@@ -228,24 +228,18 @@ const saveToLocalStorage = (urlString, setting) => {
   const url = new URL(urlString);
   const hostname = url.hostname;
 
-  console.log(setting);
-
   localStorage.setItem(hostname, JSON.stringify(setting));
 }
 
 const saveSettings = (urlString) => {
   return () => {
-    let checkedParts = {};
+    let checkedPartIds = [];
     document.querySelectorAll('input.part').forEach((elm, idx) => {
       if (elm.checked) {
-        if (checkedParts[elm.dataset.name]) {
-          checkedParts[elm.dataset.name].push(elm);
-        } else {
-          checkedParts[elm.dataset.name] = [elm];
-        }
+        checkedPartIds.push(elm.id);
       }
     });
-    saveToLocalStorage(urlString, checkedParts);
+    saveToLocalStorage(urlString, checkedPartIds);
   }
 }
 
