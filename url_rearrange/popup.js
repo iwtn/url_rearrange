@@ -224,8 +224,15 @@ const copy = (urlStr) => {
   document.execCommand('copy');
 }
 
+const saveSettings = () => {
+  console.log('click');
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
     resolution(tabs[0].url);
   });
+
+  const saveBtn = document.getElementById('save');
+  saveBtn.addEventListener('click', saveSettings, false);
 });
