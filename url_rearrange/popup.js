@@ -243,6 +243,45 @@ const saveSettings = (urlString) => {
   }
 }
 
+const makeUrlTag = (url) => {
+  const div = document.createElement('div');
+  div.innerHTML = url;
+  div.setAttribute('class', 'part');
+  const parentDiv = document.getElementById('urls');
+  parentDiv.appendChild(div);
+}
+
+const viewUrlSavedSettings = (urlString) => {
+  const url = new URL(urlString);
+  const hostname = url.hostname;
+
+  const settingStr = localStorage.getItem(hostname);
+
+  if (settingStr) {
+    let url = '';
+    let isFirstParam = true;
+
+    const setting = JSON.parse(settingStr);
+    setting.forEach(function(partId) {
+      const elm = document.getElementById(partId);
+      if (elm) {
+        let delimiter = elm.dataset.delimiter;
+        let value = elm.value;
+        if (elm.dataset.name == 'searchParams') {
+          value = elm.name + '=' + encodeURI(elm.value);
+          if (isFirstParam) {
+            delimiter = '?';
+            isFirstParam = false;
+          }
+        }
+        url += (delimiter + value);
+      }
+    });
+
+    makeUrlTag(url);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
     const urlString = tabs[0].url;
@@ -250,5 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const saveBtn = document.getElementById('save');
     saveBtn.addEventListener('click', saveSettings(urlString), false);
+
+    viewUrlSavedSettings(urlString);
   });
 });
