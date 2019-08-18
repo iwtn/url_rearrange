@@ -243,12 +243,26 @@ const saveSettings = (urlString) => {
   }
 }
 
+const makeCopyBtn = (url) => {
+  const copyBtn = document.createElement('button');
+  copyBtn.setAttribute('value', url);
+  copyBtn.innerHTML= 'copy';
+
+  copyBtn.addEventListener('click', () => {
+    copy(url);
+  });
+
+  return copyBtn;
+}
+
 const makeUrlTag = (url) => {
-  const div = document.createElement('div');
-  div.innerHTML = url;
-  div.setAttribute('class', 'part');
+  const urlText = document.createElement('span');
+  urlText.innerHTML = url;
+  urlText.setAttribute('class', 'part');
   const parentDiv = document.getElementById('urls');
-  parentDiv.appendChild(div);
+  parentDiv.appendChild(urlText);
+
+  parentDiv.appendChild(makeCopyBtn(url));
 }
 
 const viewUrlSavedSettings = (urlString) => {
