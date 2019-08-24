@@ -228,7 +228,17 @@ const saveToLocalStorage = (urlString, setting) => {
   const url = new URL(urlString);
   const hostname = url.hostname;
 
-  localStorage.setItem(hostname, JSON.stringify(setting));
+  const savedSettinsStr = localStorage.getItem(hostname);
+  let savedSettings = null;
+
+  if (savedSettinsStr) {
+    savedSettings = JSON.parse(savedSettinsStr);
+  } else {
+    savedSettings = []
+  }
+
+  savedSettings.push(setting)
+  localStorage.setItem(hostname, JSON.stringify(savedSettings));
 }
 
 const saveSettings = (urlString) => {
