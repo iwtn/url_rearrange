@@ -297,24 +297,30 @@ const viewUrlSavedSetting = (setting) => {
       url += (delimiter + value);
     }
   });
-  console.log(url);
-
   makeUrlTag(url);
 }
 
-const viewUrlSavedSettings = (urlString) => {
-  const url = new URL(urlString);
-  const hostname = url.hostname;
-
+const viewUrlSavedSettings = (hostname) => {
   const settingStr = localStorage.getItem(hostname);
   const settings = JSON.parse(settingStr);
 
   if (settingStr) {
     settings.forEach((setting) => {
-      console.log(setting);
       viewUrlSavedSetting(setting);
     });
   }
+}
+
+
+const clearDomainSetting = (hostname) => {
+  const clearBtn = document.createElement('button');
+  clearBtn.innerHTML = 'clear settings';
+  clearBtn.addEventListener('click', (event) => {
+    console.log(hostname);
+    window.localStorage.removeItem(hostname);
+  }, false);
+  const parentDiv = document.getElementById('urls');
+  parentDiv.appendChild(clearBtn);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -325,6 +331,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveBtn = document.getElementById('save');
     saveBtn.addEventListener('click', saveSettings(urlString), false);
 
-    viewUrlSavedSettings(urlString);
+    const url = new URL(urlString);
+    const hostname = url.hostname;
+
+    viewUrlSavedSettings(hostname);
+    clearDomainSetting(hostname);
   });
 });
