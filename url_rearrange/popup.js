@@ -269,10 +269,37 @@ const makeUrlTag = (url) => {
   const urlText = document.createElement('span');
   urlText.innerHTML = url;
   urlText.setAttribute('class', 'part');
-  const parentDiv = document.getElementById('urls');
-  parentDiv.appendChild(urlText);
 
-  parentDiv.appendChild(makeCopyBtn(url));
+  const linkBox = document.createElement('div');
+  linkBox.appendChild(urlText);
+  linkBox.appendChild(makeCopyBtn(url));
+
+  const parentDiv = document.getElementById('urls');
+  parentDiv.appendChild(linkBox);
+}
+
+const viewUrlSavedSetting = (setting) => {
+  let url = '';
+  let isFirstParam = true;
+
+  setting.forEach(function(partId) {
+    const elm = document.getElementById(partId);
+    if (elm) {
+      let delimiter = elm.dataset.delimiter;
+      let value = elm.value;
+      if (elm.dataset.name == 'searchParams') {
+        value = elm.name + '=' + encodeURI(elm.value);
+        if (isFirstParam) {
+          delimiter = '?';
+          isFirstParam = false;
+        }
+      }
+      url += (delimiter + value);
+    }
+  });
+  console.log(url);
+
+  makeUrlTag(url);
 }
 
 const viewUrlSavedSettings = (urlString) => {
@@ -280,29 +307,13 @@ const viewUrlSavedSettings = (urlString) => {
   const hostname = url.hostname;
 
   const settingStr = localStorage.getItem(hostname);
+  const settings = JSON.parse(settingStr);
 
   if (settingStr) {
-    let url = '';
-    let isFirstParam = true;
-
-    const setting = JSON.parse(settingStr);
-    setting.forEach(function(partId) {
-      const elm = document.getElementById(partId);
-      if (elm) {
-        let delimiter = elm.dataset.delimiter;
-        let value = elm.value;
-        if (elm.dataset.name == 'searchParams') {
-          value = elm.name + '=' + encodeURI(elm.value);
-          if (isFirstParam) {
-            delimiter = '?';
-            isFirstParam = false;
-          }
-        }
-        url += (delimiter + value);
-      }
+    settings.forEach((setting) => {
+      console.log(setting);
+      viewUrlSavedSetting(setting);
     });
-
-    makeUrlTag(url);
   }
 }
 
