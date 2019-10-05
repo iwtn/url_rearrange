@@ -241,18 +241,6 @@ const saveToLocalStorage = (urlString, setting) => {
   localStorage.setItem(hostname, JSON.stringify(savedSettings));
 }
 
-const saveSettings = (urlString) => {
-  return () => {
-    let checkedPartIds = [];
-    document.querySelectorAll('input.part').forEach((elm, idx) => {
-      if (elm.checked) {
-        checkedPartIds.push(elm.id);
-      }
-    });
-    saveToLocalStorage(urlString, checkedPartIds);
-  }
-}
-
 const makeCopyBtn = (url) => {
   const copyBtn = document.createElement('button');
   copyBtn.setAttribute('value', url);
@@ -304,10 +292,26 @@ const viewUrlSavedSettings = (hostname) => {
   const settingStr = localStorage.getItem(hostname);
   const settings = JSON.parse(settingStr);
 
+  const parentDiv = document.getElementById('urls');
+  parentDiv.innerHTML = '';
+
   if (settingStr) {
     settings.forEach((setting) => {
       viewUrlSavedSetting(setting);
     });
+  }
+}
+
+const saveSettings = (urlString, hostname) => {
+  return () => {
+    let checkedPartIds = [];
+    document.querySelectorAll('input.part').forEach((elm, idx) => {
+      if (elm.checked) {
+        checkedPartIds.push(elm.id);
+      }
+    });
+    saveToLocalStorage(urlString, checkedPartIds);
+    viewUrlSavedSettings(hostname);
   }
 }
 
@@ -327,11 +331,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlString = tabs[0].url;
     resolution(urlString);
 
-    const saveBtn = document.getElementById('save');
-    saveBtn.addEventListener('click', saveSettings(urlString), false);
-
     const url = new URL(urlString);
     const hostname = url.hostname;
+
+    const saveBtn = document.getElementById('save');
+    saveBtn.addEventListener('click', saveSettings(urlString, hostname), false);
 
     viewUrlSavedSettings(hostname);
     clearDomainSetting(hostname);
