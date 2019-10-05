@@ -316,7 +316,6 @@ const clearDomainSetting = (hostname) => {
   const clearBtn = document.createElement('button');
   clearBtn.innerHTML = 'clear settings';
   clearBtn.addEventListener('click', (event) => {
-    console.log(hostname);
     window.localStorage.removeItem(hostname);
   }, false);
   const parentDiv = document.getElementById('urls');
