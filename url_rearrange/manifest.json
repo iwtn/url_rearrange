@@ -3,7 +3,6 @@
   "version": "1.1",
   "description": "Split and combine URLs as you like.",
   "manifest_version": 2,
-  "options_page": "options.html",
   "browser_action": {
     "default_popup": "settings.html"
   },
