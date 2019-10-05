@@ -52,3 +52,12 @@ textarea {
 div#singlePart {
   margin: 3px 15px;
 }
+button {
+  margin: 10px 15px;
+}
+div#urls {
+  margin: 3px 15px;
+}
+div#urls button {
+  margin: 0px;
+}
