@@ -317,13 +317,11 @@ const saveSettings = (urlString, hostname) => {
 
 
 const clearDomainSetting = (hostname) => {
-  const clearBtn = document.createElement('button');
-  clearBtn.innerHTML = 'clear settings';
+  const clearBtn = document.getElementById('clear');
   clearBtn.addEventListener('click', (event) => {
     window.localStorage.removeItem(hostname);
+    viewUrlSavedSettings(hostname);
   }, false);
-  const parentDiv = document.getElementById('urls');
-  parentDiv.appendChild(clearBtn);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
