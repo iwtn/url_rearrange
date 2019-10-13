@@ -2,7 +2,7 @@
   "name": "url_rearrange",
   "version": "1.0.0",
   "description": "Split and combine URLs as you like.",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
