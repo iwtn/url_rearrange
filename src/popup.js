@@ -1,8 +1,7 @@
 import resolution from './basic';
 import copy from './copy';
 
-const saveToLocalStorage = (urlString, setting) => {
-  const url = new URL(urlString);
+const saveToLocalStorage = (url, setting) => {
   const hostname = url.hostname;
 
   const savedSettinsStr = localStorage.getItem(hostname);
@@ -79,7 +78,7 @@ const viewUrlSavedSettings = (hostname) => {
   }
 }
 
-const saveSettings = (urlString, hostname) => {
+const saveSettings = (url, hostname) => {
   return () => {
     let checkedPartIds = [];
     document.querySelectorAll('input.part').forEach((elm, idx) => {
@@ -87,11 +86,10 @@ const saveSettings = (urlString, hostname) => {
         checkedPartIds.push(elm.id);
       }
     });
-    saveToLocalStorage(urlString, checkedPartIds);
+    saveToLocalStorage(url, checkedPartIds);
     viewUrlSavedSettings(hostname);
   }
 }
-
 
 const clearDomainSetting = (hostname) => {
   const clearBtn = document.getElementById('clear');
@@ -101,18 +99,19 @@ const clearDomainSetting = (hostname) => {
   }, false);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
-    const urlString = tabs[0].url;
-    resolution(urlString);
-
-    const url = new URL(urlString);
+const loadSettins = (url) => {
     const hostname = url.hostname;
-
     const saveBtn = document.getElementById('save');
-    saveBtn.addEventListener('click', saveSettings(urlString, hostname), false);
 
+    saveBtn.addEventListener('click', saveSettings(url, hostname), false);
     viewUrlSavedSettings(hostname);
     clearDomainSetting(hostname);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.tabs.query({ active: true, currentWindow: true, lastFocusedWindow: true }, function (tabs) {
+    const url = new URL(tabs[0].url);
+    resolution(url);
+    loadSettins(url);
   });
 });

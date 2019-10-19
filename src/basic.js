@@ -188,8 +188,7 @@ const setSearchParams = (params, kind) => {
   menu.appendChild(table);
 }
 
-const resolution = (urlStr) => {
-  const url = new URL(urlStr);
+const resolution = (url) => {
   const urlParts = document.querySelector("#singlePart");
   urlPartKinds.forEach((kind) => {
     const name = kind.name;
