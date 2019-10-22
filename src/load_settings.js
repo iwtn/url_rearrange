@@ -1,4 +1,7 @@
 import copy from './copy';
+import CopyLink from './copy_link';
+
+customElements.define('copy-link', CopyLink);
 
 const saveToLocalStorage = (url, setting) => {
   const hostname = url.hostname;
@@ -36,6 +39,8 @@ const makeUrlTag = (url) => {
   const linkBox = document.createElement('div');
   linkBox.appendChild(urlText);
   linkBox.appendChild(makeCopyBtn(url));
+  const tag = document.createElement('copy-link');
+  linkBox.appendChild(tag);
 
   const parentDiv = document.getElementById('urls');
   parentDiv.appendChild(linkBox);
