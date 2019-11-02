@@ -1,4 +1,4 @@
-import resolution from './basic';
+import resolution from './resolution';
 import loadSettins from './load_settings';
 
 document.addEventListener("DOMContentLoaded", () => {

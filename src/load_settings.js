@@ -1,7 +1,4 @@
 import copy from './copy';
-import CopyLink from './copy_link';
-
-customElements.define('copy-link', CopyLink);
 
 const saveToLocalStorage = (url, setting) => {
   const hostname = url.hostname;
