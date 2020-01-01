@@ -29,12 +29,14 @@ const makeCopyBtn = (url) => {
 }
 
 const makeUrlTag = (url) => {
-  const urlText = document.createElement('span');
-  urlText.innerHTML = url;
-  urlText.setAttribute('class', 'part');
+  const urlLink = document.createElement('a');
+  urlLink.setAttribute('href', url);
+  urlLink.setAttribute('class', 'part');
+  urlLink.setAttribute('target', '_blank');
+  urlLink.innerHTML = url;
 
   const linkBox = document.createElement('div');
-  linkBox.appendChild(urlText);
+  linkBox.appendChild(urlLink);
   linkBox.appendChild(makeCopyBtn(url));
   const tag = document.createElement('copy-link');
   linkBox.appendChild(tag);

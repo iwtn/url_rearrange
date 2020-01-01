@@ -1,6 +1,14 @@
 # URL Rearrange
 Split and combine URLs as you like.
 
+## Development
+
+build with webpack.
+
+```bash
+$ npx webpack
+```
+
 ## Install
 https://chrome.google.com/webstore/detail/url-rearrange/flnmdckhlhmejifondmiclogolepknfd
 
