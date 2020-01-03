@@ -2,7 +2,7 @@
   "name": "URL Rearrange",
   "version": "1.2",
   "description": "Split and combine URLs as you like.",
-  "manifest_version": 2,
+  "manifest_version": 2.1,
   "browser_action": {
     "default_popup": "settings.html"
   },
