@@ -28,11 +28,12 @@ const makeCopyBtn = (url) => {
   return copyBtn;
 }
 
-const makeUrlTag = (url) => {
+const makeUrlTag = (url, idx) => {
   const urlLink = document.createElement('a');
   urlLink.setAttribute('href', url);
   urlLink.setAttribute('class', 'part');
   urlLink.setAttribute('target', '_blank');
+  urlLink.dataset.settingId = idx;
   urlLink.innerHTML = url;
 
   const linkBox = document.createElement('div');
@@ -45,7 +46,7 @@ const makeUrlTag = (url) => {
   parentDiv.appendChild(linkBox);
 }
 
-const viewUrlSavedSetting = (setting) => {
+const viewUrlSavedSetting = (setting, idx) => {
   let url = '';
   let isFirstParam = true;
 
@@ -64,7 +65,7 @@ const viewUrlSavedSetting = (setting) => {
       url += (delimiter + value);
     }
   });
-  makeUrlTag(url);
+  makeUrlTag(url, idx);
 }
 
 const viewUrlSavedSettings = (hostname) => {
@@ -75,9 +76,10 @@ const viewUrlSavedSettings = (hostname) => {
   parentDiv.innerHTML = '';
 
   if (settingStr) {
-    settings.forEach((setting) => {
-      viewUrlSavedSetting(setting);
-    });
+    const size = settings.length;
+    for(let i = 0; i < size; i++) {
+      viewUrlSavedSetting(settings[i], i, hostname);
+    }
   }
 }
 
