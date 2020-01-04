@@ -16,6 +16,21 @@ const saveToLocalStorage = (url, setting) => {
   localStorage.setItem(hostname, JSON.stringify(savedSettings));
 }
 
+const deleteFromLocalStorage = (hostname, idx) => {
+  const savedSettinsStr = localStorage.getItem(hostname);
+  let savedSettings = null;
+
+  if (savedSettinsStr) {
+    savedSettings = JSON.parse(savedSettinsStr);
+  } else {
+    savedSettings = []
+  }
+
+  savedSettings.splice(idx, 1);
+  localStorage.setItem(hostname, JSON.stringify(savedSettings));
+  viewUrlSavedSettings(hostname);
+}
+
 const makeCopyBtn = (url) => {
   const copyBtn = document.createElement('button');
   copyBtn.setAttribute('value', url);
@@ -28,7 +43,19 @@ const makeCopyBtn = (url) => {
   return copyBtn;
 }
 
-const makeUrlTag = (url, idx) => {
+const makeDeleteBtn = (idx, hostname) => {
+  const btn = document.createElement('button');
+  btn.setAttribute('value', idx);
+  btn.innerHTML= 'delete';
+
+  btn.addEventListener('click', () => {
+    deleteFromLocalStorage(hostname, idx);
+  });
+
+  return btn;
+}
+
+const makeUrlTag = (url, idx, hostname) => {
   const urlLink = document.createElement('a');
   urlLink.setAttribute('href', url);
   urlLink.setAttribute('class', 'part');
@@ -39,6 +66,7 @@ const makeUrlTag = (url, idx) => {
   const linkBox = document.createElement('div');
   linkBox.appendChild(urlLink);
   linkBox.appendChild(makeCopyBtn(url));
+  linkBox.appendChild(makeDeleteBtn(idx, hostname));
   const tag = document.createElement('copy-link');
   linkBox.appendChild(tag);
 
@@ -46,7 +74,7 @@ const makeUrlTag = (url, idx) => {
   parentDiv.appendChild(linkBox);
 }
 
-const viewUrlSavedSetting = (setting, idx) => {
+const viewUrlSavedSetting = (setting, idx, hostname) => {
   let url = '';
   let isFirstParam = true;
 
@@ -65,7 +93,7 @@ const viewUrlSavedSetting = (setting, idx) => {
       url += (delimiter + value);
     }
   });
-  makeUrlTag(url, idx);
+  makeUrlTag(url, idx, hostname);
 }
 
 const viewUrlSavedSettings = (hostname) => {
