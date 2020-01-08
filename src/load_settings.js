@@ -1,8 +1,6 @@
 import copy from './copy';
 
-const saveToLocalStorage = (url, setting) => {
-  const hostname = url.hostname;
-
+const saveToLocalStorage = (hostname, setting) => {
   const savedSettinsStr = localStorage.getItem(hostname);
   let savedSettings = null;
 
@@ -111,7 +109,7 @@ const viewUrlSavedSettings = (hostname) => {
   }
 }
 
-const saveSettings = (url, hostname) => {
+const saveSettings = (hostname) => {
   return () => {
     let checkedPartIds = [];
     document.querySelectorAll('input.part').forEach((elm, idx) => {
@@ -119,7 +117,7 @@ const saveSettings = (url, hostname) => {
         checkedPartIds.push(elm.id);
       }
     });
-    saveToLocalStorage(url, checkedPartIds);
+    saveToLocalStorage(hostname, checkedPartIds);
     viewUrlSavedSettings(hostname);
   }
 }
@@ -136,7 +134,7 @@ const loadSettins = (url) => {
     const hostname = url.hostname;
     const saveBtn = document.getElementById('save');
 
-    saveBtn.addEventListener('click', saveSettings(url, hostname), false);
+    saveBtn.addEventListener('click', saveSettings(hostname), false);
     viewUrlSavedSettings(hostname);
     clearDomainSetting(hostname);
 }
